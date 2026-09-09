@@ -1,4 +1,5 @@
 import type { FastifyInstance } from "fastify";
+import { ZodError } from "zod";
 
 export class AppError extends Error {
   constructor(
@@ -21,8 +22,8 @@ export function registerErrorHandler(app: FastifyInstance): void {
       return;
     }
     const anyErr = err as { validation?: unknown; message?: string };
-    if (anyErr.validation) {
-      reply.code(400).send({ error: { code: "bad_request", message: anyErr.message ?? "validation error" } });
+    if (err instanceof ZodError || anyErr.validation) {
+      reply.code(400).send({ error: { code: "bad_request", message: (err as Error).message } });
       return;
     }
     app.log.error(err);
