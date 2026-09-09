@@ -7,6 +7,7 @@ import { metaRoutes } from "./routes/meta";
 import { commandCenterRoutes } from "./routes/commandCenter";
 import { intakeRoutes } from "./routes/intake";
 import { operatorRoutes } from "./routes/operator";
+import { reportRoutes } from "./routes/report";
 
 export async function buildServer(opts: { logger?: boolean } = {}): Promise<FastifyInstance> {
   const app = Fastify({ logger: opts.logger ?? false });
@@ -20,7 +21,7 @@ export async function buildServer(opts: { logger?: boolean } = {}): Promise<Fast
   await app.register(commandCenterRoutes);
   await app.register(intakeRoutes);
   await app.register(operatorRoutes);
-  // await app.register(reportRoutes);          // Task 13
+  await app.register(reportRoutes);
 
   return app;
 }
