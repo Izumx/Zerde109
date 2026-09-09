@@ -78,15 +78,14 @@ export function OverviewTab() {
         isEmpty={!byTheme.isLoading && themeRows.length === 0}
         onRetry={() => void byTheme.refetch()}
       >
-        <BarChartFig
-          horizontal
-          data={themeRows.map((r) => ({
+        <RankedBarList
+          items={themeRows.map((r) => ({
             key: r.key,
             label: r.label,
             value: r.count,
             color: themeColors[r.key],
           }))}
-          onBarClick={(key) => setFilters({ theme: key as never })}
+          onItemClick={(key) => setFilters({ theme: key as never })}
         />
       </ChartCard>
 
