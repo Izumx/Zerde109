@@ -5,7 +5,8 @@
   "workspaces": ["apps/*", "packages/*"],
   "engines": { "node": ">=22" },
   "scripts": {
-    "check": "tsc -p packages/types --noEmit && tsc -p packages/ingest --noEmit",
+    "check": "tsc -p packages/types --noEmit && tsc -p packages/ingest --noEmit && tsc -p apps/api --noEmit",
+    "dev:api": "npm run dev -w @zerde/api",
     "test": "npm test --workspaces --if-present",
     "lint": "eslint .",
     "db:migrate": "npm run db:migrate -w @zerde/ingest",

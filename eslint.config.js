@@ -4,7 +4,7 @@ import tseslint from "typescript-eslint";
 export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  { ignores: ["**/dist/**", "**/node_modules/**", "apps/**", ".superpowers/**"] },
+  { ignores: ["**/dist/**", "**/node_modules/**", ".superpowers/**"] },
   {
     rules: {
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],

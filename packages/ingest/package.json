@@ -2,6 +2,18 @@
   "name": "@zerde/ingest",
   "version": "0.0.0",
   "type": "module",
+  "main": "./src/lib.ts",
+  "exports": {
+    ".": "./src/lib.ts",
+    "./migrate": "./src/migrate.ts",
+    "./seed": "./src/seed.ts",
+    "./db": "./src/db.ts",
+    "./analytics/views": "./src/analytics/views.ts",
+    "./analytics/spikes": "./src/analytics/spikes.ts",
+    "./analytics/forecasts": "./src/analytics/forecasts.ts",
+    "./loadEnv": "./src/loadEnv.ts",
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "db:migrate": "tsx src/migrate.ts",
     "db:seed": "tsx src/seed.ts",
