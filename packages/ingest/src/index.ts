@@ -1,4 +1,5 @@
 import { resolve } from "node:path";
+import type pg from "pg";
 import "./loadEnv";
 import { getPool } from "./db";
 import { runMigrations } from "./migrate";
@@ -48,7 +49,7 @@ function printSummary(rows: LoadStats[]): void {
   }
 }
 
-async function runAnalytics(pool: import("pg").Pool): Promise<void> {
+async function runAnalytics(pool: pg.Pool): Promise<void> {
   const { refreshViews } = await import("./analytics/views");
   const { computeSpikes } = await import("./analytics/spikes");
   const { computeForecasts } = await import("./analytics/forecasts");
