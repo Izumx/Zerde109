@@ -42,5 +42,145 @@
   "notFound": {
     "title": "Бет табылмады",
     "home": "Басты бетке"
+  },
+  "cc": {
+    "tab": {
+      "overview": "Шолу",
+      "spikes": "Секірістер",
+      "forecast": "Болжам",
+      "query": "Сұраныс",
+      "reports": "Есептер"
+    },
+    "kpi": {
+      "total": "Кезең ішінде барлығы",
+      "openNow": "Қазір ашық",
+      "overdueShare": "Мерзімі өткен үлесі",
+      "avgClose": "Орташа жабу уақыты",
+      "repeatShare": "Қайталама",
+      "delta": "Өткен кезеңге Δ",
+      "error": "KPI жүктелмеді"
+    },
+    "overview": {
+      "dynamics": "Өтініштер динамикасы",
+      "byTheme": "Тақырыптар құрылымы",
+      "byRegion": "Өңірлер бойынша өтініштер",
+      "topThemes": "Ең проблемалы санаттар",
+      "count": "Өтініштер",
+      "overdue": "Мерзімі өткен",
+      "granularity": "Егжей-тегжейлік"
+    },
+    "spikes": {
+      "empty": "Секірістер анықталмады",
+      "title": "Аномалды секірістер",
+      "col": { "region": "Өңір", "theme": "Тақырып", "day": "Күн", "growth": "Өсім", "severity": "Деңгей" }
+    },
+    "forecast": {
+      "title": "Жүктеме болжамы",
+      "region": "Өңір",
+      "theme": "Тақырып",
+      "history": "Тарих",
+      "forecast": "Болжам",
+      "method": "Әдіс"
+    },
+    "query": {
+      "placeholder": "Табиғи тілде сұраңыз…",
+      "ask": "Сұрау",
+      "showSql": "SQL көрсету",
+      "examples": "Мысалдар"
+    },
+    "reports": {
+      "title": "Есептер",
+      "view": "Есеп түрі",
+      "viewOverview": "Шолу",
+      "viewRegions": "Өңірлер бойынша",
+      "viewThemes": "Тақырыптар бойынша",
+      "xlsx": "XLSX жүктеу",
+      "pdf": "PDF жүктеу",
+      "failed": "Есеп жасалмады"
+    }
+  },
+  "intake": {
+    "tab": { "queue": "Кезек", "classify": "Демо-жіктеу", "quality": "Модель сапасы" },
+    "queue": {
+      "search": "Мәтін бойынша іздеу",
+      "status": "Мәртебе",
+      "priority": "Басымдық",
+      "anyStatus": "Кез келген мәртебе",
+      "anyPriority": "Кез келген басымдық",
+      "col": { "num": "№", "date": "Күні", "region": "Өңір", "preview": "Өтініш", "theme": "Тақырып", "priority": "Басымдық", "status": "Мәртебе" }
+    },
+    "classify": {
+      "input": "Өтініш мәтіні (KK / RU)",
+      "run": "Жіктеу",
+      "sample": "Мысал жүктеу",
+      "theme": "Тақырып",
+      "service": "Қызмет",
+      "priority": "Басымдық",
+      "language": "Тіл",
+      "confidence": "Сенімділік",
+      "entities": "Нысандар",
+      "address": "Мекенжай",
+      "object": "Нысан",
+      "problem": "Мәселе",
+      "route": "Бағыт",
+      "json": "JSON"
+    },
+    "quality": {
+      "notComputed": "Метрикалар есептелмеген — npm run eval орындаңыз",
+      "accuracy": "Accuracy",
+      "macroF1": "Macro F1",
+      "holdout": "Кейінге қалдырылған таңдама",
+      "method": "Әдіс",
+      "col": { "theme": "Тақырып", "precision": "Precision", "recall": "Recall", "f1": "F1", "support": "Саны" },
+      "confusion": "Қателер матрицасы"
+    },
+    "detail": {
+      "back": "← кезекке",
+      "notFound": "Өтініш табылмады",
+      "district": "Аудан",
+      "address": "Мекенжай",
+      "channel": "Арна",
+      "type": "Түрі",
+      "created": "Құрылды",
+      "closed": "Жабылды",
+      "deadline": "Мерзімі",
+      "overdue": "Мерзімі өтті",
+      "category": "Санат",
+      "subcategory": "Ішкі санат",
+      "org": "Орындаушы қызмет",
+      "resolution": "Шешім"
+    }
+  },
+  "operator": {
+    "list": {
+      "title": "Тағайындалған өтініштер",
+      "hint": "Таңдалған өңір бойынша ашық өтініштер",
+      "empty": "Ашық өтініштер жоқ"
+    },
+    "ws": {
+      "back": "← тізімге",
+      "current": "Ағымдағы өтініш",
+      "similar": "Ұқсас жағдайлар",
+      "draft": "Жауап және әрекеттер",
+      "onlyResolved": "Тек шешілгендер",
+      "useResolution": "Шешімді алу",
+      "days": "күн",
+      "similarity": "Ұқсастық",
+      "duplicate": "Телнұсқа?",
+      "repeat": "Қайталама",
+      "template": "Үлгі жауап",
+      "pickTemplate": "— үлгі таңдау —",
+      "draftPlaceholder": "Жауап жобасы…",
+      "copy": "Көшіру",
+      "service": "Қызмет",
+      "route": "Бағыттау",
+      "saveDraft": "Жобаны сақтау",
+      "markDuplicate": "Телнұсқа деп белгілеу",
+      "routed": "Өтініш бағытталды",
+      "saved": "Жоба сақталды",
+      "marked": "Телнұсқа деп белгіленді",
+      "actionFailed": "Әрекет орындалмады",
+      "notFound": "Өтініш табылмады"
+    }
   }
 }
