@@ -5,8 +5,10 @@
   "workspaces": ["apps/*", "packages/*"],
   "engines": { "node": ">=22" },
   "scripts": {
-    "check": "tsc -p packages/types --noEmit && tsc -p packages/ingest --noEmit && tsc -p apps/api --noEmit",
+    "check": "tsc -p packages/types --noEmit && tsc -p packages/ingest --noEmit && tsc -p apps/api --noEmit && tsc -p apps/web --noEmit",
     "dev:api": "npm run dev -w @zerde/api",
+    "dev:web": "npm run dev -w @zerde/web",
+    "dev": "concurrently -n api,web -c blue,green \"npm:dev:api\" \"npm:dev:web\"",
     "test": "npm test --workspaces --if-present",
     "lint": "eslint .",
     "db:migrate": "npm run db:migrate -w @zerde/ingest",
@@ -21,6 +23,7 @@
     "typescript": "^5.6.0",
     "eslint": "^9.13.0",
     "typescript-eslint": "^8.11.0",
-    "@eslint/js": "^9.13.0"
+    "@eslint/js": "^9.13.0",
+    "concurrently": "^9.0.1"
   }
 }
