@@ -1,0 +1,34 @@
+# deps
+node_modules/
+.pnp.*
+
+# builds
+dist/
+build/
+.vite/
+*.tsbuildinfo
+
+# env
+.env
+.env.local
+.env.*.local
+
+# data (raw CSV dumps, ~300 MB — not committed)
+data/
+Аналитика обращений граждан по call-центрам 109/
+
+# generated analytics artifacts
+packages/ingest/out/
+*.duckdb
+
+# test / coverage
+coverage/
+
+# brainstorm companion
+.superpowers/
+
+# editor / os
+.DS_Store
+.idea/
+.vscode/
+*.log
