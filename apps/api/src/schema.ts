@@ -16,6 +16,9 @@ export const zPagination = z.object({
   pageSize: z.coerce.number().int().min(1).max(200).default(50),
 });
 
+export const zStatus = z.enum(["new", "routed", "in_progress", "done", "cancelled"]);
+export const zPriority = z.enum(["low", "medium", "high"]);
+
 export function parseRange(q: unknown): RangeFilter {
   return zRange.parse(q) as RangeFilter;
 }
