@@ -34,6 +34,7 @@ apps/web — Vite + React + TS + Tailwind + shadcn/ui
 | `packages/ingest` | ETL CSV → PostgreSQL + аналитика (всплески, прогноз, бэктест модели) |
 | `apps/api` | `@zerde/api` — Fastify-сервис поверх витрины |
 | `apps/web` | `@zerde/web` — SPA ([свой README](apps/web/README.md)) |
+| `ai/` | Python AI/ML ядро: двуязычный NLP (TurkicNLP+Natasha), верификатор, векторная база, Erlang-C ([свой README](ai/README.md)) |
 | `db/` | SQL-миграции и сиды (справочники, таксономия тем, шаблоны) |
 
 **Таксономия тем:** 17 кодов (`water`, `electricity`, `heating`, `gas`, `sewer`,
@@ -114,6 +115,8 @@ npm run dev:web    # только Vite (API нужно поднять самом
 | `npm run verify:data` | проверки целостности |
 | `npm run eval` | бэктест классификатора тем |
 | `npm run smoke:api` | прогон всех эндпоинтов против рабочей БД |
+| `npm run dev:ai` | запуск Python FastAPI AI-сервера (:8000) |
+| `npm run test:ai` | тесты Python AI-ядра (pytest, 50 тестов) |
 | `npm run build -w @zerde/web` | прод-сборка фронта |
 
 ---

@@ -8,6 +8,8 @@
     "check": "tsc -p packages/types --noEmit && tsc -p packages/ingest --noEmit && tsc -p apps/api --noEmit && tsc -p apps/web --noEmit",
     "dev:api": "npm run dev -w @zerde/api",
     "dev:web": "npm run dev -w @zerde/web",
+    "dev:ai": "uvicorn src.api.api:app --app-dir ai --port 8000 --reload",
+    "test:ai": "pytest ai/tests/ -v",
     "dev": "concurrently -n api,web -c blue,green \"npm:dev:api\" \"npm:dev:web\"",
     "test": "npm test --workspaces --if-present",
     "lint": "eslint .",

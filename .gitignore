@@ -14,7 +14,7 @@ build/
 .env.*.local
 
 # data (raw CSV dumps, ~300 MB — not committed)
-data/
+/data/
 Аналитика обращений граждан по call-центрам 109/
 
 # generated analytics artifacts
@@ -32,3 +32,28 @@ coverage/
 .idea/
 .vscode/
 *.log
+
+# Python / AI Core
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+.coverage
+htmlcov/
+*.gguf
+*.safetensors
+*.pt
+*.bin
+models/
+checkpoints/
+drive-download-*/
+Richter-*/
+*.jsonl
+
+# Preserve AI analytical seed data
+!ai/data/
+!ai/data/unified_appeals.parquet
+!ai/data/evaluation_report.json

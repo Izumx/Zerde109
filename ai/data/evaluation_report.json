@@ -1,0 +1,121 @@
+{
+  "evaluation_dataset": "data\\test_instructions.jsonl",
+  "total_test_samples": 2028,
+  "metrics_summary": {
+    "accuracy": 0.8644,
+    "f1_macro": 0.8619,
+    "f1_weighted": 0.8637,
+    "precision_macro": 0.9007,
+    "recall_macro": 0.8677
+  },
+  "language_breakdown": {
+    "kk": {
+      "samples_count": 1018,
+      "accuracy": 0.8251,
+      "f1_macro": 0.8118
+    },
+    "ru": {
+      "samples_count": 1010,
+      "accuracy": 0.904,
+      "f1_macro": 0.8994
+    }
+  },
+  "per_category_metrics": {
+    "WATER_SEWAGE": {
+      "name_ru": "Водоснабжение и канализация",
+      "name_kk": "Сумен жабдықтау және кәріз",
+      "precision": 0.9692,
+      "recall": 0.4172,
+      "f1_score": 0.5833,
+      "support": 151
+    },
+    "HEATING": {
+      "name_ru": "Теплоснабжение и отопление",
+      "name_kk": "Жылумен жабдықтау",
+      "precision": 0.9515,
+      "recall": 0.9515,
+      "f1_score": 0.9515,
+      "support": 165
+    },
+    "ELECTRICITY": {
+      "name_ru": "Электроснабжение",
+      "name_kk": "Электрмен жабдықтау",
+      "precision": 0.7265,
+      "recall": 1.0,
+      "f1_score": 0.8416,
+      "support": 170
+    },
+    "LIGHTING": {
+      "name_ru": "Уличное и дворовое освещение",
+      "name_kk": "Көше және аула жарығы",
+      "precision": 0.92,
+      "recall": 0.7709,
+      "f1_score": 0.8389,
+      "support": 179
+    },
+    "ROADS": {
+      "name_ru": "Дороги и дорожная инфраструктура",
+      "name_kk": "Жолдар және жол инфрақұрылымы",
+      "precision": 0.9809,
+      "recall": 0.8105,
+      "f1_score": 0.8876,
+      "support": 190
+    },
+    "WASTE": {
+      "name_ru": "ТБО и санитарная очистка",
+      "name_kk": "Қоқыс шығару және санитарлық тазалау",
+      "precision": 0.9728,
+      "recall": 1.0,
+      "f1_score": 0.9862,
+      "support": 179
+    },
+    "LANDSCAPING": {
+      "name_ru": "Благоустройство и озеленение",
+      "name_kk": "Абаттандыру және көгалдандыру",
+      "precision": 0.9394,
+      "recall": 0.8378,
+      "f1_score": 0.8857,
+      "support": 185
+    },
+    "PUBLIC_TRANSPORT": {
+      "name_ru": "Общественный транспорт",
+      "name_kk": "Қоғамдық көлік",
+      "precision": 0.8333,
+      "recall": 1.0,
+      "f1_score": 0.9091,
+      "support": 35
+    },
+    "GAS": {
+      "name_ru": "Газоснабжение",
+      "name_kk": "Газбен жабдықтау",
+      "precision": 1.0,
+      "recall": 0.6354,
+      "f1_score": 0.7771,
+      "support": 192
+    },
+    "VET_ANIMALS": {
+      "name_ru": "Ветсервис и отлов безнадзорных животных",
+      "name_kk": "Ветсервис және жануарларды аулау",
+      "precision": 0.981,
+      "recall": 1.0,
+      "f1_score": 0.9904,
+      "support": 207
+    },
+    "INFO_CONSULT": {
+      "name_ru": "Справочная информация и консультация",
+      "name_kk": "Анықтамалық ақпарат және кеңес беру",
+      "precision": 1.0,
+      "recall": 0.9948,
+      "f1_score": 0.9974,
+      "support": 191
+    },
+    "OTHER": {
+      "name_ru": "Прочие вопросы жизнеобеспечения",
+      "name_kk": "Өзге де тыныс-тіршілік мәселелері",
+      "precision": 0.5335,
+      "recall": 0.9946,
+      "f1_score": 0.6945,
+      "support": 184
+    }
+  }
+}

@@ -1,5 +1,21 @@
 import "@testing-library/jest-dom/vitest";
 
+// Align AbortSignal and Request between Node 24 and JSDOM
+if (typeof globalThis.Request !== "undefined") {
+  const OriginalRequest = globalThis.Request;
+  (globalThis as any).Request = class extends OriginalRequest {
+    constructor(input: any, init?: any) {
+      if (init && "signal" in init) {
+        const { signal, ...rest } = init;
+        super(input, rest);
+        return;
+      }
+      super(input, init);
+    }
+  };
+  (window as any).Request = (globalThis as any).Request;
+}
+
 // --- jsdom gaps needed by Radix (shadcn) + sonner + ThemeProvider ---
 
 if (!window.matchMedia) {
