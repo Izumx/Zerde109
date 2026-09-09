@@ -6,7 +6,7 @@ import { syntheticId } from "./syntheticId";
 
 export const karagandaMapper: RegionMapper = {
   region: "karaganda",
-  map(row: RawRow, classify): MapResult {
+  map(row: RawRow, classify, rowIndex = 0): MapResult {
     const createdAt = parseDateTime(row.created_date);
     if (!createdAt) return { ok: false, reason: "bad created_date" };
 
@@ -23,7 +23,9 @@ export const karagandaMapper: RegionMapper = {
     const isOverdue = false;
 
     const appeal: NormalizedAppeal = {
-      sourceId: syntheticId([row.created_date, address, category, sub, org, row.appeal_type]),
+      sourceId: syntheticId([
+        String(rowIndex), row.created_date, address, category, sub, org, row.appeal_type,
+      ]),
       region: "karaganda",
       district: /район/i.test(districtRaw) ? districtRaw : null,
       locality: localityRaw || null,

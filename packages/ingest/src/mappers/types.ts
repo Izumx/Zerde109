@@ -41,5 +41,10 @@ export type MapResult =
 
 export interface RegionMapper {
   region: string;
-  map(row: RawRow, classify: ThemeClassifier): MapResult;
+  /**
+   * @param rowIndex Порядковый номер строки в объединённом потоке файлов региона.
+   *   Стабилен между прогонами (файлы не меняются). Нужен источникам без своего
+   *   ключа (Караганда) для уникальности синтетического id.
+   */
+  map(row: RawRow, classify: ThemeClassifier, rowIndex?: number): MapResult;
 }

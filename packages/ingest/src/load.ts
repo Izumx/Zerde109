@@ -38,10 +38,13 @@ export async function upsertBatch(
   appeals: NormalizedAppeal[],
 ): Promise<number> {
   if (appeals.length === 0) return 0;
+  // Внутри одного INSERT ... ON CONFLICT нельзя трогать одну строку дважды —
+  // дедуплицируем по id, оставляя последнюю запись.
+  const deduped = [...new Map(appeals.map((a) => [`${region}:${a.sourceId}`, a])).values()];
   const perRow = COLS.length;
   const tuples: string[] = [];
   const params: unknown[] = [];
-  appeals.forEach((a, i) => {
+  deduped.forEach((a, i) => {
     const base = i * perRow;
     tuples.push(`(${COLS.map((_, j) => `$${base + j + 1}`).join(",")})`);
     params.push(...rowValues(region, a));
@@ -78,12 +81,13 @@ export async function loadRegion(
     }
   };
 
+  let rowIndex = 0;
   for (const file of cfg.files) {
     const parser = createReadStream(join(dataDir, file)).pipe(parse(cfg.csv));
     for await (const rec of parser as AsyncIterable<Record<string, string>>) {
       if (opts.limit && stats.read >= opts.limit) break;
       stats.read += 1;
-      const res = cfg.mapper.map(rec, classify);
+      const res = cfg.mapper.map(rec, classify, rowIndex++);
       if (!res.ok) {
         stats.rejected += 1;
         if (stats.rejectSamples.length < 10) stats.rejectSamples.push(res.reason);
