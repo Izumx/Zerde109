@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { LangToggle } from "@/components/LangToggle";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { FilterBar } from "@/components/FilterBar";
 import { RoleSwitch } from "@/components/RoleSwitch";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const NAV = [
   { to: "/command-center", key: "nav.commandCenter" },
@@ -22,6 +23,7 @@ const NAV = [
 export function AppShell() {
   const [navOpen, setNavOpen] = useState(false);
   const { t } = useTranslation();
+  const { pathname } = useLocation();
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -75,7 +77,9 @@ export function AppShell() {
         </aside>
 
         <main className="flex-1 p-6">
-          <Outlet />
+          <ErrorBoundary resetKeys={[pathname]}>
+            <Outlet />
+          </ErrorBoundary>
         </main>
       </div>
     </div>
