@@ -56,9 +56,12 @@ export const THEME_RULES: ThemeRule[] = [
   { pattern: "фонар", themeCode: "lighting", priority: 26 },
   { pattern: "ночью отсутствует свет", themeCode: "lighting", priority: 26 },
   { pattern: "перегорев", themeCode: "lighting", priority: 27 },
+  { pattern: "жарық", themeCode: "lighting", priority: 26 },
   // water
   { pattern: "водоснаб", themeCode: "water", priority: 30 },
   { pattern: "отсутствие воды", themeCode: "water", priority: 30 },
+  { pattern: "нет воды", themeCode: "water", priority: 30 },
+  { pattern: "прорыв", themeCode: "water", priority: 30 },
   { pattern: "отсутствие водоснаб", themeCode: "water", priority: 30 },
   { pattern: "порыв воды", themeCode: "water", priority: 30 },
   { pattern: "утечка воды", themeCode: "water", priority: 30 },
