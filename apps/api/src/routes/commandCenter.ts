@@ -8,12 +8,16 @@ import { getTimeseries } from "../repo/timeseries";
 import { getBreakdown } from "../repo/breakdown";
 import { getSpikes } from "../repo/spikes";
 import { getForecast } from "../repo/forecast";
+import { runNlQuery } from "../repo/nlQuery";
 
 const zGranularity = z.enum(["day", "week", "month"]).default("month");
 const zDim = z.enum(["region", "theme", "status", "channel"]);
 const zForecastQuery = z.object({
   region: z.string().min(1),
   theme: z.enum(THEME_CODES as [string, ...string[]]),
+});
+const zNlQueryBody = z.object({
+  q: z.string().min(1).max(500),
 });
 
 export async function commandCenterRoutes(app: FastifyInstance): Promise<void> {
@@ -40,5 +44,10 @@ export async function commandCenterRoutes(app: FastifyInstance): Promise<void> {
   app.get("/api/forecast", async (req) => {
     const q = zForecastQuery.parse(req.query);
     return getForecast(getPool(), q.region, q.theme as ThemeCode);
+  });
+
+  app.post("/api/nl-query", async (req) => {
+    const body = zNlQueryBody.parse(req.body);
+    return runNlQuery(getPool(), body.q);
   });
 }
