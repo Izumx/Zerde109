@@ -9,7 +9,14 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { AXIS_STYLE, GRID_STYLE, TOOLTIP_WRAPPER_CLS } from "./chartTheme";
+import {
+  AXIS_STYLE,
+  compactNumber,
+  fullNumber,
+  GRID_STYLE,
+  shortDate,
+  TOOLTIP_WRAPPER_CLS,
+} from "./chartTheme";
 
 export interface LineSeries {
   key: string;
@@ -32,19 +39,29 @@ export function LineChartFig({ data, xKey, series, band, height = 260, yLabel }:
 
   return (
     <ResponsiveContainer width="100%" height={height}>
-      <ComposedChart data={data} margin={{ top: 8, right: 12, bottom: 4, left: 4 }}>
+      <ComposedChart data={data} margin={{ top: 8, right: 16, bottom: 4, left: 4 }}>
         <CartesianGrid {...GRID_STYLE} vertical={false} />
-        <XAxis dataKey={xKey} {...AXIS_STYLE} />
+        <XAxis
+          dataKey={xKey}
+          tickFormatter={shortDate}
+          minTickGap={28}
+          {...AXIS_STYLE}
+        />
         <YAxis
           {...AXIS_STYLE}
-          width={44}
+          width={48}
+          tickFormatter={compactNumber}
           label={
             yLabel
               ? { value: yLabel, angle: -90, position: "insideLeft", fontSize: 11 }
               : undefined
           }
         />
-        <Tooltip wrapperClassName={TOOLTIP_WRAPPER_CLS} />
+        <Tooltip
+          wrapperClassName={TOOLTIP_WRAPPER_CLS}
+          labelFormatter={(l: string) => l}
+          formatter={(v: number, name: string) => [fullNumber(v), name]}
+        />
         {series.length >= 2 && <Legend iconType="plainline" />}
         {band && (
           <>

@@ -28,6 +28,30 @@ export const GRID_STYLE = { stroke: "hsl(var(--border))", strokeDasharray: "3 3"
 export const TOOLTIP_WRAPPER_CLS =
   "rounded-md border bg-card px-2.5 py-1.5 text-xs text-card-foreground shadow-sm";
 
+const nf = new Intl.NumberFormat("ru-RU");
+
+/** 1234 → «1,2 тыс», 1_200_000 → «1,2 млн» — для делений осей. */
+export function compactNumber(n: number): string {
+  const abs = Math.abs(n);
+  if (abs >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(".0", "")} млн`;
+  if (abs >= 1_000) return `${(n / 1_000).toFixed(1).replace(".0", "")} тыс`;
+  return nf.format(Math.round(n));
+}
+
+export const fullNumber = (n: number): string => nf.format(Math.round(n));
+
+/** «2025-03-01» / «2025-03-01T…» → «01.03» (для делений оси времени). */
+export function shortDate(v: string | number): string {
+  const s = String(v);
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s);
+  if (!m) return s;
+  return `${m[3]}.${m[2]}`;
+}
+
+/** Обрезать длинную подпись до `n` символов с многоточием. */
+export const clampLabel = (s: string, n = 22): string =>
+  s.length > n ? `${s.slice(0, n - 1)}…` : s;
+
 /**
  * Возвращает функцию `keys -> {key: hex}`. Коды тем берут `themes.color` из meta;
  * прочие ключи (регионы/статусы/каналы) — по порядку из палитры под текущую тему.

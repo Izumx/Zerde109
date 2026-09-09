@@ -16,6 +16,8 @@ export async function getSimilar(
   const target = targetRes.rows[0];
   if (!target) throw notFound(`Appeal ${id} not found`);
 
+  // DISTINCT ON (search_text): в исходных данных много буквально одинаковых
+  // обращений — схлопываем их в один кейс (самый свежий), затем ранжируем.
   const res = await pool.query<{
     id: string;
     created_at: Date;
@@ -27,14 +29,20 @@ export async function getSimilar(
     days_to_close: number | null;
     similarity: number;
   }>(
-    `SELECT id, created_at, region, theme,
-            left(coalesce(raw_category,'') || ' — ' || coalesce(subcategory,''), 140) AS preview,
-            service_org, resolution,
-            EXTRACT(day FROM (closed_at - created_at))::int AS days_to_close,
-            similarity(search_text, $2) AS similarity
-       FROM appeals
-      WHERE id <> $1 AND theme = $3 AND region = $4
-      ORDER BY similarity(search_text, $2) DESC
+    `SELECT id, created_at, region, theme, preview, service_org, resolution,
+            days_to_close, similarity
+       FROM (
+         SELECT DISTINCT ON (search_text)
+                id, created_at, region, theme,
+                left(coalesce(raw_category,'') || ' — ' || coalesce(subcategory,''), 140) AS preview,
+                service_org, resolution,
+                EXTRACT(day FROM (closed_at - created_at))::int AS days_to_close,
+                similarity(search_text, $2) AS similarity
+           FROM appeals
+          WHERE id <> $1 AND theme = $3 AND region = $4
+          ORDER BY search_text, similarity(search_text, $2) DESC, created_at DESC
+       ) d
+      ORDER BY d.similarity DESC
       LIMIT $5`,
     [id, target.search_text, target.theme, target.region, k],
   );
@@ -74,16 +82,22 @@ export async function getDuplicates(pool: pg.Pool, id: string): Promise<Duplicat
     days_to_close: number | null;
     similarity: number;
   }>(
-    `SELECT id, created_at, region, theme,
-            left(coalesce(raw_category,'') || ' — ' || coalesce(subcategory,''), 140) AS preview,
-            service_org, resolution,
-            EXTRACT(day FROM (closed_at - created_at))::int AS days_to_close,
-            similarity(search_text, $2) AS similarity
-       FROM appeals
-      WHERE id <> $1 AND theme = $3 AND region = $4
-        AND status IN ('new', 'routed', 'in_progress')
-        AND similarity(search_text, $2) > 0.6
-      ORDER BY similarity DESC
+    `SELECT id, created_at, region, theme, preview, service_org, resolution,
+            days_to_close, similarity
+       FROM (
+         SELECT DISTINCT ON (search_text)
+                id, created_at, region, theme,
+                left(coalesce(raw_category,'') || ' — ' || coalesce(subcategory,''), 140) AS preview,
+                service_org, resolution,
+                EXTRACT(day FROM (closed_at - created_at))::int AS days_to_close,
+                similarity(search_text, $2) AS similarity
+           FROM appeals
+          WHERE id <> $1 AND theme = $3 AND region = $4
+            AND status IN ('new', 'routed', 'in_progress')
+            AND similarity(search_text, $2) > 0.6
+          ORDER BY search_text, similarity(search_text, $2) DESC, created_at DESC
+       ) d
+      ORDER BY d.similarity DESC
       LIMIT 5`,
     [id, target.search_text, target.theme, target.region],
   );

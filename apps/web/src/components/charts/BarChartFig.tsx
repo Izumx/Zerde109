@@ -8,7 +8,15 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { AXIS_STYLE, DEFAULT_SERIES, GRID_STYLE, TOOLTIP_WRAPPER_CLS } from "./chartTheme";
+import {
+  AXIS_STYLE,
+  clampLabel,
+  compactNumber,
+  DEFAULT_SERIES,
+  fullNumber,
+  GRID_STYLE,
+  TOOLTIP_WRAPPER_CLS,
+} from "./chartTheme";
 
 interface Datum {
   key: string;
@@ -32,28 +40,47 @@ export function BarChartFig({ data, height = 260, horizontal = false, onBarClick
       <BarChart
         data={data}
         layout={horizontal ? "vertical" : "horizontal"}
-        margin={{ top: 8, right: 12, bottom: 4, left: horizontal ? 8 : 4 }}
+        margin={{ top: 8, right: 16, bottom: horizontal ? 4 : 44, left: horizontal ? 8 : 4 }}
+        barCategoryGap={horizontal ? "20%" : "24%"}
       >
         <CartesianGrid {...GRID_STYLE} horizontal={!horizontal} vertical={horizontal} />
         {horizontal ? (
           <>
-            <XAxis type="number" {...AXIS_STYLE} />
-            <YAxis type="category" dataKey="label" width={140} {...AXIS_STYLE} />
+            <XAxis type="number" tickFormatter={compactNumber} {...AXIS_STYLE} />
+            <YAxis
+              type="category"
+              dataKey="label"
+              width={168}
+              tickFormatter={(v: string) => clampLabel(v, 24)}
+              {...AXIS_STYLE}
+            />
           </>
         ) : (
           <>
-            <XAxis type="category" dataKey="label" {...AXIS_STYLE} interval={0} />
-            <YAxis type="number" width={44} {...AXIS_STYLE} />
+            <XAxis
+              type="category"
+              dataKey="label"
+              interval={0}
+              angle={-32}
+              textAnchor="end"
+              height={56}
+              tickFormatter={(v: string) => clampLabel(v, 16)}
+              {...AXIS_STYLE}
+            />
+            <YAxis type="number" width={48} tickFormatter={compactNumber} {...AXIS_STYLE} />
           </>
         )}
-        <Tooltip wrapperClassName={TOOLTIP_WRAPPER_CLS} cursor={{ fill: "hsl(var(--muted))" }} />
+        <Tooltip
+          wrapperClassName={TOOLTIP_WRAPPER_CLS}
+          cursor={{ fill: "hsl(var(--muted))" }}
+          formatter={(v: number) => [fullNumber(v), ""]}
+        />
         <Bar
           dataKey="value"
+          maxBarSize={horizontal ? 22 : 48}
           radius={horizontal ? [0, 4, 4, 0] : [4, 4, 0, 0]}
           isAnimationActive={false}
-          onClick={(d: unknown) =>
-            onBarClick?.((d as { payload: Datum }).payload.key)
-          }
+          onClick={(d: unknown) => onBarClick?.((d as { payload: Datum }).payload.key)}
           cursor={onBarClick ? "pointer" : undefined}
         >
           {data.map((d, i) => (
