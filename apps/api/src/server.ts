@@ -3,6 +3,8 @@ import cors from "@fastify/cors";
 import sensible from "@fastify/sensible";
 import { registerErrorHandler } from "./errors";
 
+import { metaRoutes } from "./routes/meta";
+
 export async function buildServer(opts: { logger?: boolean } = {}): Promise<FastifyInstance> {
   const app = Fastify({ logger: opts.logger ?? false });
   await app.register(cors, { origin: true });
@@ -11,8 +13,7 @@ export async function buildServer(opts: { logger?: boolean } = {}): Promise<Fast
 
   app.get("/api/health", async () => ({ ok: true }));
 
-  // Роут-плагины регистрируются здесь по мере добавления:
-  // await app.register(metaRoutes);            // Task 3
+  await app.register(metaRoutes);
   // await app.register(commandCenterRoutes);   // Tasks 4-8, 11
   // await app.register(intakeRoutes);          // Tasks 9-10
   // await app.register(operatorRoutes);        // Task 12
