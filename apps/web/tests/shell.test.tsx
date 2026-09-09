@@ -1,19 +1,9 @@
 import { render, screen } from "@testing-library/react";
-import { RouterProvider } from "react-router-dom";
-import { QueryClientProvider } from "@tanstack/react-query";
 import { expect, test } from "vitest";
+import { Providers } from "../src/app/providers";
 import { makeRouter } from "../src/app/router";
-import { makeQueryClient } from "../src/lib/queryClient";
 
-function renderAt(path: string) {
-  const qc = makeQueryClient();
-  const router = makeRouter([path]);
-  return render(
-    <QueryClientProvider client={qc}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>,
-  );
-}
+const renderAt = (path: string) => render(<Providers router={makeRouter([path])} />);
 
 test("shell renders nav links", () => {
   renderAt("/command-center");

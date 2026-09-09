@@ -3,11 +3,13 @@ import { NavLink, Outlet } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/app/i18n";
+import { LangToggle } from "@/components/LangToggle";
 
 const NAV = [
-  { to: "/command-center", label: "Ситуационный центр" },
-  { to: "/intake", label: "Смарт-приём" },
-  { to: "/operator", label: "Ассистент оператора" },
+  { to: "/command-center", key: "nav.commandCenter" },
+  { to: "/intake", key: "nav.intake" },
+  { to: "/operator", key: "nav.operator" },
 ];
 
 /**
@@ -16,6 +18,7 @@ const NAV = [
  */
 export function AppShell() {
   const [navOpen, setNavOpen] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -31,7 +34,9 @@ export function AppShell() {
         </Button>
         <span className="font-semibold text-primary">Zerde&nbsp;109</span>
         <div data-slot="filterbar" className="flex flex-1 flex-wrap items-center gap-2" />
-        <div data-slot="toolbar" className="flex items-center gap-2" />
+        <div data-slot="toolbar" className="flex items-center gap-2">
+          <LangToggle />
+        </div>
       </header>
 
       <div className="flex flex-1">
@@ -56,7 +61,7 @@ export function AppShell() {
                   )
                 }
               >
-                {item.label}
+                {t(item.key)}
               </NavLink>
             ))}
           </nav>

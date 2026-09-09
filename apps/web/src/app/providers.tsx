@@ -3,6 +3,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { makeQueryClient } from "@/lib/queryClient";
 import { Toaster } from "@/components/ui/sonner";
+import { I18nProvider } from "./i18n";
 import { router as browserRouter } from "./router";
 
 type AppRouter = ReturnType<typeof createBrowserRouter>;
@@ -16,8 +17,10 @@ export function Providers({ router = browserRouter }: { router?: AppRouter }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <Toaster />
+      <I18nProvider>
+        <RouterProvider router={router} future={{ v7_startTransition: true }} />
+        <Toaster />
+      </I18nProvider>
     </QueryClientProvider>
   );
 }
