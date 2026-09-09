@@ -5,6 +5,7 @@ import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/app/i18n";
 import { LangToggle } from "@/components/LangToggle";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const NAV = [
   { to: "/command-center", key: "nav.commandCenter" },
@@ -36,6 +37,7 @@ export function AppShell() {
         <div data-slot="filterbar" className="flex flex-1 flex-wrap items-center gap-2" />
         <div data-slot="toolbar" className="flex items-center gap-2">
           <LangToggle />
+          <ThemeToggle />
         </div>
       </header>
 

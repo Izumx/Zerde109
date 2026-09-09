@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { makeQueryClient } from "@/lib/queryClient";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider } from "./i18n";
+import { ThemeProvider, useTheme } from "./theme";
 import { router as browserRouter } from "./router";
 
 type AppRouter = ReturnType<typeof createBrowserRouter>;
@@ -17,12 +18,19 @@ export function Providers({ router = browserRouter }: { router?: AppRouter }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <I18nProvider>
-        <RouterProvider router={router} future={{ v7_startTransition: true }} />
-        <Toaster />
-      </I18nProvider>
+      <ThemeProvider>
+        <I18nProvider>
+          <RouterProvider router={router} future={{ v7_startTransition: true }} />
+          <ThemedToaster />
+        </I18nProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
+}
+
+function ThemedToaster() {
+  const { resolved } = useTheme();
+  return <Toaster theme={resolved} />;
 }
 
 /** Обёртка для тестов компонентов вне роутера. */
