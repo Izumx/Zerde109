@@ -1,14 +1,20 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
-import type { BreakdownDim, Granularity } from "@zerde/types";
+import { THEME_CODES, type BreakdownDim, type Granularity, type ThemeCode } from "@zerde/types";
 import { getPool } from "../db";
 import { parseRange } from "../schema";
 import { getKpi } from "../repo/kpi";
 import { getTimeseries } from "../repo/timeseries";
 import { getBreakdown } from "../repo/breakdown";
+import { getSpikes } from "../repo/spikes";
+import { getForecast } from "../repo/forecast";
 
 const zGranularity = z.enum(["day", "week", "month"]).default("month");
 const zDim = z.enum(["region", "theme", "status", "channel"]);
+const zForecastQuery = z.object({
+  region: z.string().min(1),
+  theme: z.enum(THEME_CODES as [string, ...string[]]),
+});
 
 export async function commandCenterRoutes(app: FastifyInstance): Promise<void> {
   app.get("/api/kpi", async (req) => getKpi(getPool(), parseRange(req.query)));
@@ -25,5 +31,14 @@ export async function commandCenterRoutes(app: FastifyInstance): Promise<void> {
     const range = parseRange(q);
     const dim = zDim.parse(q.dim) as BreakdownDim;
     return getBreakdown(getPool(), range, dim);
+  });
+
+  app.get("/api/spikes", async (req) => {
+    return getSpikes(getPool(), parseRange(req.query));
+  });
+
+  app.get("/api/forecast", async (req) => {
+    const q = zForecastQuery.parse(req.query);
+    return getForecast(getPool(), q.region, q.theme as ThemeCode);
   });
 }
