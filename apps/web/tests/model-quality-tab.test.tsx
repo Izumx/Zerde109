@@ -50,7 +50,7 @@ test("renders accuracy, macro-f1 and a per-theme row", async () => {
   render_();
   expect(await screen.findByText("97%")).toBeInTheDocument();
   expect(screen.getByText("88%")).toBeInTheDocument();
-  expect(screen.getByText("Водоснабжение")).toBeInTheDocument();
+  expect(screen.getAllByText("Водоснабжение").length).toBeGreaterThan(0);
   expect(screen.getByText("93%")).toBeInTheDocument();
 });
 
