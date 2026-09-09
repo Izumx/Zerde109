@@ -1,5 +1,1 @@
-import { PagePlaceholder } from "./PagePlaceholder";
-
-export function OperatorPage() {
-  return <PagePlaceholder titleKey="nav.operator" plan={6} />;
-}
+export { OperatorPage } from "@/features/operator/OperatorPage";

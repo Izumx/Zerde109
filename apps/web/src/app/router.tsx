@@ -9,6 +9,7 @@ import { useRole, defaultRouteForRole } from "@/lib/useRole";
 import { CommandCenterPage } from "@/pages/CommandCenterPage";
 import { IntakePage } from "@/pages/IntakePage";
 import { OperatorPage } from "@/pages/OperatorPage";
+import { WorkspacePage } from "@/features/operator/WorkspacePage";
 import { AppealDetailPage } from "@/pages/AppealDetailPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 
@@ -25,6 +26,7 @@ const routes: RouteObject[] = [
       { path: "/command-center", element: <CommandCenterPage /> },
       { path: "/intake", element: <IntakePage /> },
       { path: "/operator", element: <OperatorPage /> },
+      { path: "/operator/:id", element: <WorkspacePage /> },
       { path: "/appeals/:id", element: <AppealDetailPage /> },
       { path: "*", element: <NotFoundPage /> },
     ],
