@@ -5,6 +5,7 @@ import { notFound } from "../errors";
 import { parseRange, zPagination, zPriority, zRange, zStatus } from "../schema";
 import { getAppeal, listAppeals } from "../repo/appeals";
 import { classify } from "../repo/classify";
+import { getModelEval } from "../repo/modelEval";
 
 const zListQuery = zRange.merge(zPagination).extend({
   status: zStatus.optional(),
@@ -42,5 +43,11 @@ export async function intakeRoutes(app: FastifyInstance): Promise<void> {
   app.post("/api/classify", async (req) => {
     const body = zClassifyBody.parse(req.body);
     return classify(body.text, body.language);
+  });
+
+  app.get("/api/model-eval", async () => {
+    const evalData = await getModelEval(getPool());
+    if (!evalData) throw notFound("model eval not computed — run npm run eval");
+    return evalData;
   });
 }

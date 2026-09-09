@@ -11,6 +11,7 @@
     "./analytics/views": "./src/analytics/views.ts",
     "./analytics/spikes": "./src/analytics/spikes.ts",
     "./analytics/forecasts": "./src/analytics/forecasts.ts",
+    "./analytics/modelEval": "./src/analytics/modelEval.ts",
     "./loadEnv": "./src/loadEnv.ts",
     "./package.json": "./package.json"
   },
@@ -19,6 +20,7 @@
     "db:seed": "tsx src/seed.ts",
     "prepare:data": "tsx scripts/prepare-data.ts",
     "ingest": "tsx src/index.ts",
+    "eval": "tsx src/eval.ts",
     "verify:data": "tsx src/verify.ts",
     "test": "vitest run"
   },
