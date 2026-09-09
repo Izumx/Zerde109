@@ -4,6 +4,7 @@ import sensible from "@fastify/sensible";
 import { registerErrorHandler } from "./errors";
 
 import { metaRoutes } from "./routes/meta";
+import { commandCenterRoutes } from "./routes/commandCenter";
 
 export async function buildServer(opts: { logger?: boolean } = {}): Promise<FastifyInstance> {
   const app = Fastify({ logger: opts.logger ?? false });
@@ -14,7 +15,7 @@ export async function buildServer(opts: { logger?: boolean } = {}): Promise<Fast
   app.get("/api/health", async () => ({ ok: true }));
 
   await app.register(metaRoutes);
-  // await app.register(commandCenterRoutes);   // Tasks 4-8, 11
+  await app.register(commandCenterRoutes);
   // await app.register(intakeRoutes);          // Tasks 9-10
   // await app.register(operatorRoutes);        // Task 12
   // await app.register(reportRoutes);          // Task 13
