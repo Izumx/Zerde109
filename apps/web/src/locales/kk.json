@@ -98,5 +98,57 @@
       "pdf": "PDF жүктеу",
       "failed": "Есеп жасалмады"
     }
+  },
+  "intake": {
+    "tab": { "queue": "Кезек", "classify": "Демо-жіктеу", "quality": "Модель сапасы" },
+    "queue": {
+      "search": "Мәтін бойынша іздеу",
+      "status": "Мәртебе",
+      "priority": "Басымдық",
+      "anyStatus": "Кез келген мәртебе",
+      "anyPriority": "Кез келген басымдық",
+      "col": { "num": "№", "date": "Күні", "region": "Өңір", "preview": "Өтініш", "theme": "Тақырып", "priority": "Басымдық", "status": "Мәртебе" }
+    },
+    "classify": {
+      "input": "Өтініш мәтіні (KK / RU)",
+      "run": "Жіктеу",
+      "sample": "Мысал жүктеу",
+      "theme": "Тақырып",
+      "service": "Қызмет",
+      "priority": "Басымдық",
+      "language": "Тіл",
+      "confidence": "Сенімділік",
+      "entities": "Нысандар",
+      "address": "Мекенжай",
+      "object": "Нысан",
+      "problem": "Мәселе",
+      "route": "Бағыт",
+      "json": "JSON"
+    },
+    "quality": {
+      "notComputed": "Метрикалар есептелмеген — npm run eval орындаңыз",
+      "accuracy": "Accuracy",
+      "macroF1": "Macro F1",
+      "holdout": "Кейінге қалдырылған таңдама",
+      "method": "Әдіс",
+      "col": { "theme": "Тақырып", "precision": "Precision", "recall": "Recall", "f1": "F1", "support": "Саны" },
+      "confusion": "Қателер матрицасы"
+    },
+    "detail": {
+      "back": "← кезекке",
+      "notFound": "Өтініш табылмады",
+      "district": "Аудан",
+      "address": "Мекенжай",
+      "channel": "Арна",
+      "type": "Түрі",
+      "created": "Құрылды",
+      "closed": "Жабылды",
+      "deadline": "Мерзімі",
+      "overdue": "Мерзімі өтті",
+      "category": "Санат",
+      "subcategory": "Ішкі санат",
+      "org": "Орындаушы қызмет",
+      "resolution": "Шешім"
+    }
   }
 }

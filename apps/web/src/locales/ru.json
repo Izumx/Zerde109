@@ -98,5 +98,57 @@
       "pdf": "Скачать PDF",
       "failed": "Не удалось сформировать отчёт"
     }
+  },
+  "intake": {
+    "tab": { "queue": "Очередь", "classify": "Демо-классификация", "quality": "Качество модели" },
+    "queue": {
+      "search": "Поиск по тексту",
+      "status": "Статус",
+      "priority": "Приоритет",
+      "anyStatus": "Любой статус",
+      "anyPriority": "Любой приоритет",
+      "col": { "num": "№", "date": "Дата", "region": "Регион", "preview": "Обращение", "theme": "Тема", "priority": "Приоритет", "status": "Статус" }
+    },
+    "classify": {
+      "input": "Текст обращения (KK / RU)",
+      "run": "Классифицировать",
+      "sample": "Загрузить пример",
+      "theme": "Тема",
+      "service": "Служба",
+      "priority": "Приоритет",
+      "language": "Язык",
+      "confidence": "Уверенность",
+      "entities": "Сущности",
+      "address": "Адрес",
+      "object": "Объект",
+      "problem": "Проблема",
+      "route": "Маршрут",
+      "json": "JSON"
+    },
+    "quality": {
+      "notComputed": "Метрики не рассчитаны — выполните npm run eval",
+      "accuracy": "Accuracy",
+      "macroF1": "Macro F1",
+      "holdout": "Отложенная выборка",
+      "method": "Метод",
+      "col": { "theme": "Тема", "precision": "Precision", "recall": "Recall", "f1": "F1", "support": "Кол-во" },
+      "confusion": "Матрица ошибок"
+    },
+    "detail": {
+      "back": "← к очереди",
+      "notFound": "Обращение не найдено",
+      "district": "Район",
+      "address": "Адрес",
+      "channel": "Канал",
+      "type": "Тип",
+      "created": "Создано",
+      "closed": "Закрыто",
+      "deadline": "Срок",
+      "overdue": "Просрочено",
+      "category": "Категория",
+      "subcategory": "Подкатегория",
+      "org": "Служба-исполнитель",
+      "resolution": "Резолюция"
+    }
   }
 }
