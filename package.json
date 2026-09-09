@@ -10,8 +10,8 @@
     "lint": "eslint .",
     "db:migrate": "npm run db:migrate -w @zerde/ingest",
     "db:seed": "npm run db:seed -w @zerde/ingest",
-    "prepare:data": "npm run prepare:data -w @zerde/ingest",
-    "ingest": "npm run ingest -w @zerde/ingest",
+    "prepare:data": "npm run -s prepare:data -w @zerde/ingest --",
+    "ingest": "npm run -s ingest -w @zerde/ingest --",
     "verify:data": "npm run verify:data -w @zerde/ingest"
   },
   "devDependencies": {
