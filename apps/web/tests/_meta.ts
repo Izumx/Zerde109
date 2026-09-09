@@ -16,13 +16,18 @@ export const META_FIXTURE: Meta = {
   statuses: [{ code: "in_progress", labelRu: "В работе", labelKk: "Жұмыста" }],
 };
 
-/** Стаб global fetch: /api/meta → META_FIXTURE, остальное → 200 {}. */
+/** Стаб global fetch: /api/meta → META_FIXTURE + разумные пустышки для эндпоинтов центра. */
 export function stubMetaFetch(meta: Meta = META_FIXTURE): void {
   vi.stubGlobal(
     "fetch",
     vi.fn((input: RequestInfo | URL) => {
       const url = String(input);
-      const body = url.includes("/api/meta") ? meta : {};
+      let body: unknown = {};
+      if (url.includes("/api/meta")) body = meta;
+      else if (url.includes("/api/kpi"))
+        body = { total: 0, prevTotal: 0, deltaPct: 0, overdueShare: 0, avgCloseHours: null, repeatShare: 0, openNow: 0 };
+      else if (url.includes("/api/timeseries")) body = { granularity: "month", points: [] };
+      else if (url.includes("/api/breakdown") || url.includes("/api/spikes")) body = [];
       return Promise.resolve(
         new Response(JSON.stringify(body), {
           status: 200,

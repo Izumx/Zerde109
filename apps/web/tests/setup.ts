@@ -27,3 +27,18 @@ proto.scrollIntoView ??= (): void => {};
 proto.hasPointerCapture ??= (): boolean => false;
 proto.setPointerCapture ??= (): void => {};
 proto.releasePointerCapture ??= (): void => {};
+
+// Recharts ResponsiveContainer needs a measurable parent in jsdom.
+Element.prototype.getBoundingClientRect = function (): DOMRect {
+  return {
+    width: 640,
+    height: 320,
+    top: 0,
+    left: 0,
+    right: 640,
+    bottom: 320,
+    x: 0,
+    y: 0,
+    toJSON: () => ({}),
+  } as DOMRect;
+};

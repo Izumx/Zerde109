@@ -19,9 +19,9 @@ test("shell renders nav links", () => {
   expect(screen.getByRole("link", { name: "Ассистент оператора" })).toBeInTheDocument();
 });
 
-test("'/' redirects to command centre", () => {
+test("'/' redirects to command centre", async () => {
   renderAt("/");
-  expect(screen.getByRole("heading", { name: "Ситуационный центр" })).toBeInTheDocument();
+  expect(await screen.findByRole("tab", { name: "Обзор" })).toBeInTheDocument();
 });
 
 test("unknown route shows not-found", () => {
