@@ -1,5 +1,5 @@
 import { PagePlaceholder } from "./PagePlaceholder";
 
 export function IntakePage() {
-  return <PagePlaceholder title="Смарт-приём и маршрутизация" plan={5} />;
+  return <PagePlaceholder titleKey="nav.intake" plan={5} />;
 }

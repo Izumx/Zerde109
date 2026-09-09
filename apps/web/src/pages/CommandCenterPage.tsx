@@ -1,5 +1,5 @@
 import { PagePlaceholder } from "./PagePlaceholder";
 
 export function CommandCenterPage() {
-  return <PagePlaceholder title="Ситуационный центр" plan={4} />;
+  return <PagePlaceholder titleKey="nav.commandCenter" plan={4} />;
 }

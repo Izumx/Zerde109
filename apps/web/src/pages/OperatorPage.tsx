@@ -1,5 +1,5 @@
 import { PagePlaceholder } from "./PagePlaceholder";
 
 export function OperatorPage() {
-  return <PagePlaceholder title="Ассистент оператора" plan={6} />;
+  return <PagePlaceholder titleKey="nav.operator" plan={6} />;
 }
