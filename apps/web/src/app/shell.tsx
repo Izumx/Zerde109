@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/app/i18n";
 import { LangToggle } from "@/components/LangToggle";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { FilterBar } from "@/components/FilterBar";
+import { RoleSwitch } from "@/components/RoleSwitch";
 
 const NAV = [
   { to: "/command-center", key: "nav.commandCenter" },
@@ -34,8 +36,11 @@ export function AppShell() {
           <Menu className="size-5" />
         </Button>
         <span className="font-semibold text-primary">Zerde&nbsp;109</span>
-        <div data-slot="filterbar" className="flex flex-1 flex-wrap items-center gap-2" />
+        <div data-slot="filterbar" className="flex flex-1 flex-wrap items-center gap-2">
+          <FilterBar />
+        </div>
         <div data-slot="toolbar" className="flex items-center gap-2">
+          <RoleSwitch />
           <LangToggle />
           <ThemeToggle />
         </div>

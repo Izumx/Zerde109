@@ -1,15 +1,20 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, beforeEach, expect, test } from "vitest";
+import { afterEach, beforeEach, expect, test, vi } from "vitest";
 import { Providers } from "../src/app/providers";
 import { makeRouter } from "../src/app/router";
 import { ThemeProvider, useTheme } from "../src/app/theme";
+import { stubMetaFetch } from "./_meta";
 
 beforeEach(() => {
   localStorage.clear();
   document.documentElement.classList.remove("dark");
+  stubMetaFetch();
 });
-afterEach(() => localStorage.clear());
+afterEach(() => {
+  localStorage.clear();
+  vi.restoreAllMocks();
+});
 
 test("i18n: default RU, LangToggle to KK swaps nav strings and persists", async () => {
   render(<Providers router={makeRouter(["/command-center"])} />);

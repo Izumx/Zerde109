@@ -5,15 +5,16 @@ import {
   type RouteObject,
 } from "react-router-dom";
 import { AppShell } from "./shell";
+import { useRole, defaultRouteForRole } from "@/lib/useRole";
 import { CommandCenterPage } from "@/pages/CommandCenterPage";
 import { IntakePage } from "@/pages/IntakePage";
 import { OperatorPage } from "@/pages/OperatorPage";
 import { AppealDetailPage } from "@/pages/AppealDetailPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 
-/** Task 6 заменит на реальную роль из useRole(). */
 function RoleRedirect() {
-  return <Navigate to="/command-center" replace />;
+  const { role } = useRole();
+  return <Navigate to={defaultRouteForRole(role)} replace />;
 }
 
 const routes: RouteObject[] = [

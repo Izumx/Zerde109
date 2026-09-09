@@ -1,7 +1,14 @@
 import { render, screen } from "@testing-library/react";
-import { expect, test } from "vitest";
+import { afterEach, beforeEach, expect, test, vi } from "vitest";
 import { Providers } from "../src/app/providers";
 import { makeRouter } from "../src/app/router";
+import { stubMetaFetch } from "./_meta";
+
+beforeEach(() => {
+  localStorage.clear();
+  stubMetaFetch();
+});
+afterEach(() => vi.restoreAllMocks());
 
 const renderAt = (path: string) => render(<Providers router={makeRouter([path])} />);
 
