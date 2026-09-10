@@ -47,13 +47,18 @@ htmlcov/
 *.safetensors
 *.pt
 *.bin
-models/
+/models/
+ai/models/*
+!ai/models/zerde-classifier-109/
 checkpoints/
 drive-download-*/
 Richter-*/
 *.jsonl
 
-# Preserve AI analytical seed data
+# Preserve AI analytical seed data & trained lightweight classifier
 !ai/data/
 !ai/data/unified_appeals.parquet
 !ai/data/evaluation_report.json
+!ai/data/appeals_vector_cache.npz
+!ai/models/zerde-classifier-109/
+!ai/models/zerde-classifier-109/**

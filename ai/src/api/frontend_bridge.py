@@ -28,20 +28,8 @@ log = structlog.get_logger(__name__)
 
 router = APIRouter(prefix="/api", tags=["Frontend Bridge (@zerde/web)"])
 
-def _resolve_data_path(rel_name: str) -> Path:
-    candidates = [
-        Path("data") / rel_name,
-        Path("ai/data") / rel_name,
-        Path(__file__).resolve().parent.parent.parent / "data" / rel_name,
-    ]
-    for c in candidates:
-        if c.exists():
-            return c
-    return candidates[0]
-
-
-PARQUET_PATH = _resolve_data_path("unified_appeals.parquet")
-EVAL_PATH = _resolve_data_path("evaluation_report.json")
+PARQUET_PATH = Path("data/unified_appeals.parquet")
+EVAL_PATH = Path("data/evaluation_report.json")
 
 # In-memory cached dataframe for fast queries
 _appeals_df: Optional[pd.DataFrame] = None

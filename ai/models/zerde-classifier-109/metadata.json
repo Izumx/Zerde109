@@ -1,0 +1,23 @@
+{
+  "classes": [
+    "ELECTRICITY",
+    "GAS",
+    "HEATING",
+    "INFO_CONSULT",
+    "LANDSCAPING",
+    "LIGHTING",
+    "OTHER",
+    "PUBLIC_TRANSPORT",
+    "ROADS",
+    "VET_ANIMALS",
+    "WASTE",
+    "WATER_SEWAGE"
+  ],
+  "accuracy": 1.0,
+  "f1_macro": 1.0,
+  "f1_weighted": 1.0,
+  "embedding_backbone": "zerde-embedding-109",
+  "embedding_dim": 384,
+  "train_samples": 11488,
+  "test_samples": 2028
+}

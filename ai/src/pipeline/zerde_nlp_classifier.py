@@ -29,8 +29,12 @@ from src.pipeline.verifier import ZerdeVerifier
 log = structlog.get_logger(__name__)
 
 
+from pathlib import Path
+import joblib
+import numpy as np
+
 class ZerdeNLPClassifier:
-    """Production-grade hybrid classifier for 109 appeals."""
+    """Production-grade fine-tuned ML classifier for 109 appeals."""
 
     def __init__(
         self,
@@ -43,10 +47,31 @@ class ZerdeNLPClassifier:
         self.ollama = ollama_client or ZerdeOllamaClient()
         self.verifier = verifier or ZerdeVerifier()
         self.confidence_threshold = settings.hybrid_confidence_threshold
+
+        # Load Fine-Tuned Embedding Backbone + Classifier Head
+        self._encoder = None
+        self._classifier = None
+        self._init_ml_models()
         log.info("zerde_nlp_classifier_init_done")
 
+    def _init_ml_models(self):
+        try:
+            from sentence_transformers import SentenceTransformer
+            import torch
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+            emb_dir = Path("models/zerde-embedding-109")
+            clf_path = Path("models/zerde-classifier-109/classifier.joblib")
+
+            if emb_dir.exists():
+                self._encoder = SentenceTransformer(str(emb_dir), device=device)
+            if clf_path.exists():
+                self._classifier = joblib.load(clf_path)
+                log.info("fine_tuned_classifier_loaded", classes=len(self._classifier.classes_))
+        except Exception as e:
+            log.warning("ml_model_init_warning", error=str(e))
+
     async def classify(self, text: str) -> ClassifyResult:
-        """Classify a citizen appeal text with hybrid pipeline."""
+        """Classify a citizen appeal text with fine-tuned ML pipeline."""
         if not text or not text.strip():
             return ClassifyResult(
                 category_code="OTHER",
@@ -62,7 +87,7 @@ class ZerdeNLPClassifier:
         # Step 1: Detect Language
         lang = detect_language(text)
 
-        # Step 2: Run CPU NLP Pipeline (in worker thread to keep event loop free)
+        # Step 2: Run CPU NLP Pipeline for NER & Location extraction
         if lang == "kk":
             analysis: AnalysisResult = await asyncio.to_thread(self.kazakh_nlp.analyze, text)
         else:
@@ -72,33 +97,32 @@ class ZerdeNLPClassifier:
         region, address = self._extract_location(analysis.entities)
         detected_org = self._extract_org(analysis.entities)
 
-        # Step 4: NLP Lemma-based Classification
-        category_code, confidence = map_lemmas_to_category(analysis.lemmas, text)
+        # Step 4: Fine-Tuned ML Classification
+        category_code = "OTHER"
+        confidence = 0.50
+        source = "fine_tuned_model"
+
+        if self._encoder is not None and self._classifier is not None:
+            try:
+                emb = await asyncio.to_thread(
+                    self._encoder.encode,
+                    [text],
+                    normalize_embeddings=True
+                )
+                probs = self._classifier.predict_proba(emb)[0]
+                best_idx = int(np.argmax(probs))
+                category_code = str(self._classifier.classes_[best_idx])
+                confidence = float(probs[best_idx])
+            except Exception as e:
+                log.warning("ml_inference_fallback", error=str(e))
+                category_code, confidence = map_lemmas_to_category(analysis.lemmas, text)
+                source = "nlp_lemma_fallback"
+        else:
+            category_code, confidence = map_lemmas_to_category(analysis.lemmas, text)
+            source = "nlp_lemma_fallback"
+
+        # Step 5: Priority Detection with Emergency Guard
         priority = detect_priority(text)
-
-        source = "nlp"
-
-        # Step 5: LLM Fallback if confidence < threshold
-        if confidence < self.confidence_threshold:
-            log.info(
-                "low_confidence_trigger_llm",
-                category=category_code,
-                confidence=confidence,
-                threshold=self.confidence_threshold,
-            )
-            # Check if Ollama is available before awaiting
-            if await self.ollama.is_online():
-                llm_res = await self.ollama.classify_appeal(text)
-                if llm_res and "category_code" in llm_res:
-                    llm_cat = llm_res["category_code"]
-                    if llm_cat in UNIFIED_CATEGORIES:
-                        category_code = llm_cat
-                        confidence = float(llm_res.get("confidence", 0.88))
-                        if "priority" in llm_res:
-                            priority = llm_res["priority"]
-                        if "assigned_organization" in llm_res and llm_res["assigned_organization"]:
-                            detected_org = llm_res["assigned_organization"]
-                        source = "llm"
 
         # Step 6: Determine default organization if not extracted
         cat_info = UNIFIED_CATEGORIES.get(category_code, UNIFIED_CATEGORIES["OTHER"])
@@ -108,13 +132,11 @@ class ZerdeNLPClassifier:
         cat_name = cat_info["kk"] if lang == "kk" else cat_info["ru"]
 
         # Step 7: Multi-Signal Verification
-        ver_res = self.verifier.verify_classification(text, category_code, priority)
+        ver_res = self.verifier.verify_classification(text, category_code, priority, confidence=confidence)
 
-        # Emergency override if verification caught priority mismatch
         is_verified = ver_res.passed
         if not ver_res.passed and any(s.name == "domain_109" and not s.passed for s in ver_res.signals):
             priority = "жоғары / высокий"
-            # Re-evaluate verification: if domain was the only failed signal, it is now satisfied
             other_failures = [s for s in ver_res.signals if s.name != "domain_109" and not s.passed]
             is_verified = len(other_failures) == 0
 

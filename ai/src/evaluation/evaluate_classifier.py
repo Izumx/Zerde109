@@ -35,13 +35,31 @@ def evaluate():
     y_pred = []
     by_lang = {"kk": {"true": [], "pred": []}, "ru": {"true": [], "pred": []}}
     
-    for item in samples:
+    # Load ML models
+    import joblib
+    import torch
+    from sentence_transformers import SentenceTransformer
+
+    clf_path = Path("models/zerde-classifier-109/classifier.joblib")
+    emb_path = Path("models/zerde-embedding-109")
+    
+    if clf_path.exists() and emb_path.exists():
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        print(f"Evaluating fine-tuned ML model on {device}: {emb_path} + {clf_path}...")
+        encoder = SentenceTransformer(str(emb_path), device=device)
+        clf = joblib.load(clf_path)
+        
+        user_texts = [item["messages"][1]["content"].replace("Обращение / Өтініш: ", "").strip() for item in samples]
+        print(f"Encoding {len(user_texts)} evaluation texts...")
+        embeddings = encoder.encode(user_texts, batch_size=128, show_progress_bar=True, normalize_embeddings=True)
+        predictions = clf.predict(embeddings)
+    else:
+        print("Warning: Trained classifier not found, falling back to heuristic...")
+        predictions = [map_text_to_category(item["messages"][1]["content"].replace("Обращение / Өтініш: ", "").strip()) for item in samples]
+
+    for item, pred_cat in zip(samples, predictions):
         true_cat = item["category_code"]
         lang = item.get("language", "ru")
-        user_msg = item["messages"][1]["content"].replace("Обращение / Өтініш: ", "")
-        
-        # Predict category
-        pred_cat = map_text_to_category(user_msg)
         
         y_true.append(true_cat)
         y_pred.append(pred_cat)
